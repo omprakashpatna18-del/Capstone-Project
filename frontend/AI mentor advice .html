@@ -162,8 +162,39 @@
     
   <div class="glass-card" style="padding: 28px; margin: 0 24px;">
      <h2 > <i> AI Mentor Says....</i> </h2>
+     <div id="marks"></div>
+     <div id="suggestions"></div>
+   
+   
   </div>
  </div>
+<script>
+const BACKEND_URL = "https://your-app.onrender.com";
+
+const marks = localStorage.getItem('predicted_marks');
+const studentData = JSON.parse(localStorage.getItem('student_data'));
+
+// Marks display karo
+document.querySelector('.marks-display').innerText = marks;
+
+// Backend se suggestions lo
+async function getSuggestions() {
+  const res = await fetch(`${BACKEND_URL}/api/suggest`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      marks: marks,
+      student_data: studentData
+    })
+  });
+
+  const data = await res.json();
+  document.querySelector('.suggestions-display').innerHTML =
+    data.suggestions.replace(/\n/g, '<br/>');
+}
+
+getSuggestions();
+</script>
 
 
 <footer>
