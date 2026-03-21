@@ -177,16 +177,30 @@ const studentData = JSON.parse(localStorage.getItem('student_data'));
 // Marks display karo
 document.getElementById('marks').innerText = marks;
 
-// Backend se suggestions lo
-async function getSuggestions() {
-  const res = await fetch(`${BACKEND_URL}/api/suggest`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      marks: marks,
-      student_data: studentData
-    })
-  });
+async function getSuggestions() { 
+  alert("Marks: " + marks); // ← Kya aa raha hai?
+  alert("StudentData: " + JSON.stringify(studentData)); // ← Null hai?
+  
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/suggest`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        marks: marks,
+        student_data: studentData
+      })
+    });
+    alert("Status: " + res.status); // ← Status kya hai?
+    const data = await res.json();
+    alert("Response: " + JSON.stringify(data)); // ← Kya aaya?
+    
+    document.getElementById('suggestions').innerHTML =
+      data.suggestions.replace(/\n/g, '<br/>');
+
+  } catch(err) {
+    alert("Error: " + err.message);
+  }
+}
 
   const data = await res.json();
   document.getElementById('suggestions').innerHTML =
