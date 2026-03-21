@@ -454,7 +454,7 @@ const data = {
   sleep_quality: inputs[9].value,
   study_method: inputs[4].value,
   facility_rating: inputs[10].value,
-  exam_difficulty: inputs[11].value,
+  exam_difficulty: inputs[11].value
 };
 
   const res = await fetch(`${BACKEND_URL}/api/predict`, {
@@ -465,7 +465,6 @@ const data = {
   });
 
   const result = await res.json();
-  alert("Result: " + JSON.stringify(result));
   localStorage.setItem('predicted_marks', result.predicted_marks);
   localStorage.setItem('student_data', JSON.stringify(data));
 
