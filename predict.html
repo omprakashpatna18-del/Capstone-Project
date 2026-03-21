@@ -440,36 +440,43 @@
 <script>
 const BACKEND_URL = "https://capstone-project-3-vu1u.onrender.com";
 
+
 async function submitForm() {
-const inputs = document.querySelectorAll('.field input','.field select');
+  try {
+    const inputs = document.querySelectorAll('.field input, .field select');
 
-const data = {
-  age: parseFloat(inputs[1].value),
-  gender: inputs[2].value,
-  course: inputs[3].value,
-  study_hours: parseFloat(inputs[5].value),
-  class_attendance: parseFloat(inputs[7].value),
-  internet_access: inputs[8].value,
-  sleep_hours: parseFloat(inputs[6].value),
-  sleep_quality: inputs[9].value,
-  study_method: inputs[4].value,
-  facility_rating: inputs[10].value,
-  exam_difficulty: inputs[11].value
-};
+    const data = {
+      age: parseFloat(inputs[1].value),
+      gender: inputs[2].value,
+      course: inputs[3].value,
+      study_method: inputs[4].value,
+      study_hours: parseFloat(inputs[5].value),
+      sleep_hours: parseFloat(inputs[6].value),
+      class_attendance: parseFloat(inputs[7].value),
+      internet_access: inputs[8].value,
+      sleep_quality: inputs[9].value,
+      facility_rating: inputs[10].value,
+      exam_difficulty: inputs[11].value,
+    };
 
-  const res = await fetch(`${BACKEND_URL}/api/predict`, {
-   
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
+    alert("Data: " + JSON.stringify(data)); // ← Debug
 
-  const result = await res.json();
- 
- localStorage.setItem('predicted_marks', result.predicted_marks);
- localStorage.setItem('student_data', JSON.stringify(data));
- window.location.href = 'AI mentor advice.html';
-}
+    const res = await fetch(`${BACKEND_URL}/api/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    alert("Result: " + JSON.stringify(result)); // ← Debug
+
+    localStorage.setItem('predicted_marks', result.predicted_marks);
+    localStorage.setItem('student_data', JSON.stringify(data));
+    window.location.href = 'AI mentor advice.html';
+
+  } catch(err) {
+    alert("Error: " + err.message);
+  }
  
   // ← Yeh add karo
  
