@@ -220,7 +220,7 @@ Follow the given format:
     response = gemini_model.client.models.generate_content(prompt=prompt_text,model="gemini-2.0-flash",)
     return response.text
 
-!pip freeze > requirements.txt
+
 
 app = FastAPI(title="Student Marks Predictor")
 
