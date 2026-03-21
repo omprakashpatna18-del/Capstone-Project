@@ -29,8 +29,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pyngrok import ngrok, conf
 
-!pip install flask flask-cors pyngrok xgboost scikit-learn
-!pip install google-genai pandas numpy joblib
+
+
 
 columns=data.columns
 
