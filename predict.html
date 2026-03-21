@@ -441,7 +441,7 @@
 const BACKEND_URL = "https://capstone-project-3-vu1u.onrender.com";
 
 async function submitForm() {
- const inputs = document.querySelectorAll('field');
+const inputs = document.querySelectorAll('.field');
 
 const data = {
   age: parseFloat(inputs[1].value),
@@ -456,7 +456,6 @@ const data = {
   facility_rating: inputs[10].value,
   exam_difficulty: inputs[11].value,
 };
-;
 
   const res = await fetch(`${BACKEND_URL}/api/predict`, {
    
@@ -466,7 +465,7 @@ const data = {
   });
 
   const result = await res.json();
-alert("Result: " + JSON.stringify(result));
+  alert("Result: " + JSON.stringify(result));
   localStorage.setItem('predicted_marks', result.predicted_marks);
   localStorage.setItem('student_data', JSON.stringify(data));
 
