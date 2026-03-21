@@ -443,7 +443,7 @@ const BACKEND_URL = "https://capstone-project-3-vu1u.onrender.com";
 
 async function submitForm() {
   try {
-    const inputs = document.querySelectorAll('.field input, .field select');
+    const inputs = document.querySelectorAll('.field input', '.field select');
 
     const data = {
       age: parseFloat(inputs[1].value),
