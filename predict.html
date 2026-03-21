@@ -465,13 +465,15 @@ const data = {
   });
 
   const result = await res.json();
-  localStorage.setItem('predicted_marks', result.predicted_marks);
-  localStorage.setItem('student_data', JSON.stringify(data));
-
-  window.location.href = 'AI mentor advice.html';
- alert("Marks: " + marks); // ← Yeh add karo
  alert("Student: " + JSON.stringify(studentData));
-}
+ alert("Marks: " + marks);
+ 
+ localStorage.setItem('predicted_marks', result.predicted_marks);
+ localStorage.setItem('student_data', JSON.stringify(data));
+
+ window.location.href = 'AI mentor advice.html';
+  // ← Yeh add karo
+ 
  </script>
 
 </body>
