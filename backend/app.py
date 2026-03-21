@@ -216,7 +216,7 @@ allow_headers=["*"],
                 )
 
 @app.post("/api/predict")
-def predict(data: StudentData):
+async def predict(data: StudentData):
     marks = predict_marks(data.dict())  # Aapka existing function
     return {"predicted_marks": round(float(marks), 2)}
 @app.post("/api/suggest")
