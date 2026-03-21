@@ -441,7 +441,7 @@
 const BACKEND_URL = "https://capstone-project-3-vu1u.onrender.com";
 
 async function submitForm() {
-const inputs = document.querySelectorAll('input','select');
+const inputs = document.querySelectorAll('.field input','.field select');
 
 const data = {
   age: parseFloat(inputs[1].value),
@@ -465,16 +465,16 @@ const data = {
   });
 
   const result = await res.json();
- alert("Student: " + JSON.stringify(studentData));
- alert("Marks: " + marks);
  
  localStorage.setItem('predicted_marks', result.predicted_marks);
  localStorage.setItem('student_data', JSON.stringify(data));
-
  window.location.href = 'AI mentor advice.html';
+}
+ 
   // ← Yeh add karo
  
  </script>
+ 
 
 </body>
 </html>
