@@ -132,9 +132,9 @@ master_map= {
       'facility_rating': {'low': 1, 'medium': 0, 'high': 2},
       'exam_difficulty': {'easy': 0, 'moderate': 2, 'hard': 1},
                               }
-
+import os
 import google.genai as genai
-gemini_model=genai.Client(api_key="AIzaSyCULzOpRfrnHTPJP_O46RCPf3JIsQbmgY8")
+gemini_model=genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
 
 def predict_marks(data):
     """
