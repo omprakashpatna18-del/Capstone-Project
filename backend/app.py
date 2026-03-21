@@ -14,20 +14,17 @@ url = "https://raw.githubusercontent.com/omprakashpatna18-del/Capstone-Project/m
 data = pd.read_csv(url)
 print(data.head())
 
-import nest_asyncio
-nest_asyncio.apply()
+
 
 import uvicorn
-import threading
 import joblib
-import pandas as pd
-import numpy as np
+
 import google.genai as genai
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from pyngrok import ngrok, conf
+
 
 
 
@@ -77,10 +74,7 @@ print(type(xgb_regressor))
 pred=xgb_regressor.predict(X_test)
 print(pred)
 
-import joblib
-from google.colab import files
-joblib.dump(xgb_regressor, 'xgb_model.joblib')
-files.download('xgb_model.joblib')
+
 
 from sklearn.metrics import mean_squared_error,mean_absolute_percentage_error
 
@@ -91,17 +85,6 @@ mape=mean_absolute_percentage_error(y_test,pred)
 print(f"Mean Squared Error (Scikit-learn): {mse}")
 print(mape)
 
-from sklearn.model_selection import RandomizedSearchCV
-param={'max_depth':[3,4,5],'learning_rate':[0.05,0.1,0.5],'reg_alpha':[20,30,40],'min_child_weight':[20,30,40],'gamma':[0,5,10],'reg_lambda':[0,10,20]}
-optimal_params=RandomizedSearchCV(estimator=xgb_regressor,param_distributions=param,scoring='neg_mean_squared_error',cv=5,verbose=1)
-optimal_params.fit(X_train,y_train)
-
-optimal_params.best_params_
-
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
 
 model = joblib.load("xgb_model.joblib")
 class StudentData(BaseModel):
