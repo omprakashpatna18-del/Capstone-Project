@@ -443,20 +443,20 @@ const BACKEND_URL = "https://capstone-project-3-vu1u.onrender.com";
 
 async function submitForm() {
   try {
-    const inputs = document.querySelectorAll('.field input', '.field select');
+    const inputs = document.querySelectorAll('.field input,.field select');
 
     const data = {
       age: parseFloat(inputs[1].value),
       gender: inputs[2].value.toLowerCase(),
       course: inputs[3].value.toLowerCase(),
-      study_method: inputs[4].value.toLowerCase()
+      study_method: inputs[4].value.toLowerCase(),
       study_hours: parseFloat(inputs[5].value),
       sleep_hours: parseFloat(inputs[6].value),
       class_attendance: parseFloat(inputs[7].value),
       internet_access: inputs[8].value.toLowerCase(),
       sleep_quality: inputs[9].value.toLowerCase(),
-      facility_rating: inputs[10].value.toLowerCase()
-      exam_difficulty: inputs[11].value.toLowerCase()
+      facility_rating: inputs[10].value.toLowerCase(),
+      exam_difficulty: inputs[11].value.toLowerCase(),
     };
 
     alert("Data: " + JSON.stringify(data)); // ← Debug
@@ -477,7 +477,7 @@ async function submitForm() {
   } catch(err) {
     alert("Error: " + err.message);
   }
- 
+ }
   // ← Yeh add karo
  
  </script>
