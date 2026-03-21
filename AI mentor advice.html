@@ -175,7 +175,7 @@ const marks = localStorage.getItem('predicted_marks');
 const studentData = JSON.parse(localStorage.getItem('student_data'));
 
 // Marks display karo
-document.querySelector('.marks-display').innerText = marks;
+document.getElementById('marks').innerText = marks;
 
 // Backend se suggestions lo
 async function getSuggestions() {
@@ -189,7 +189,7 @@ async function getSuggestions() {
   });
 
   const data = await res.json();
-  document.querySelector('.suggestions-display').innerHTML =
+  document.getElementById('suggestions').innerHTML =
     data.suggestions.replace(/\n/g, '<br/>');
 }
 
