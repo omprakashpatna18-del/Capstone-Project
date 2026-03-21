@@ -437,6 +437,39 @@
 
   </div>
 </div>
+ const BACKEND_URL = "https://your-app.onrender.com";
+
+async function submitForm() {
+ const inputs = document.querySelectorAll('.field');
+
+const data = {
+  age: parseFloat(inputs[1].value),
+  gender: inputs[2].value,
+  course: inputs[3].value,
+  study_hours: parseFloat(inputs[5].value),
+  class_attendance: parseFloat(inputs[7].value),
+  internet_access: inputs[5].value,
+  sleep_hours: parseFloat(inputs[6].value),
+  sleep_quality: inputs[8].value,
+  study_method: inputs[4].value,
+  facility_rating: inputs[9].value,
+  exam_difficulty: inputs[10].value,
+};
+;
+
+  const res = await fetch(`${BACKEND_URL}/api/predict`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+
+  localStorage.setItem('predicted_marks', result.predicted_marks);
+  localStorage.setItem('student_data', JSON.stringify(data));
+
+  window.location.href = 'AI mentor advice.html';
+}
 
 </body>
 </html>
