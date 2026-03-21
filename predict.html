@@ -459,13 +459,14 @@ const data = {
 ;
 
   const res = await fetch(`${BACKEND_URL}/api/predict`, {
+   
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
 
   const result = await res.json();
-
+alert("Result: " + JSON.stringify(result));
   localStorage.setItem('predicted_marks', result.predicted_marks);
   localStorage.setItem('student_data', JSON.stringify(data));
 
