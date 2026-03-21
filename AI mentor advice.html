@@ -169,6 +169,7 @@
   </div>
  </div>
 <script>
+alert("Script loaded!");
 const BACKEND_URL = "https://capstone-project-3-vu1u.onrender.com";
 
 const marks = localStorage.getItem('predicted_marks');
@@ -202,10 +203,6 @@ async function getSuggestions() {
   }
 }
 
-  const data = await res.json();
-  document.getElementById('suggestions').innerHTML =
-    data.suggestions.replace(/\n/g, '<br/>');
-}
 
 getSuggestions();
 </script>
