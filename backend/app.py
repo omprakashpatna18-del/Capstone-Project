@@ -219,3 +219,30 @@ allow_headers=["*"],
 def predict(data: StudentData):
     marks = predict_marks(data.dict())  # Aapka existing function
     return {"predicted_marks": round(float(marks), 2)}
+@app.post("/api/suggest")
+async def suggest(data: dict):
+    marks = data["marks"]
+    student = data["student_data"]
+
+    prompt = f"""You are a helpful academic mentor. A student has received a predicted score of {marks}/100.
+
+Student Profile:
+- Age: {student['age']}
+- Gender: {student['gender']}
+- Course: {student['course']}
+- Study Hours per day: {student['study_hours']}
+- Class Attendance: {student['class_attendance']}%
+- Internet Access: {student['internet_access']}
+- Sleep Hours: {student['sleep_hours']}
+- Sleep Quality: {student['sleep_quality']}
+- Study Method: {student['study_method']}
+- Facility Rating: {student['facility_rating']}
+- Exam Difficulty: {student['exam_difficulty']}
+
+Give 4-5 specific, practical and encouraging suggestions to improve academic performance based on this profile. Use emojis and keep it friendly."""
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt
+    )
+    return {"suggestions": response.text}
