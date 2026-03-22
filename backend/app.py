@@ -85,6 +85,7 @@ mape=mean_absolute_percentage_error(y_test,pred)
 print(f"Mean Squared Error (Scikit-learn): {mse}")
 print(mape)
 
+joblib.dump(xgb_regressor, 'xgb_model.joblib')
 
 model = joblib.load("xgb_model.joblib")
 class StudentData(BaseModel):
