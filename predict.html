@@ -467,7 +467,7 @@ async function submitForm() {
     const res = await fetch(`${BACKEND_URL}/api/suggest`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ student_data: data })
     });
 
     const result = await res.json();
