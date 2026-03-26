@@ -168,13 +168,66 @@ def predict_marks(data):
     prediction = xgb_regressor.predict(df)[0]
     predicted_marks = round(float(prediction), 2)
 
+
+    return predicted_marks
+
+def features_ranked(data):
+    """
+    Takes raw input from HTML form, encodes it exactly
+    like your notebook, and returns XGBoost prediction.
+    """
+
+    # Build raw input dict (student_id excluded)
+    raw = {
+        'age'             : int(data.get('age', 20)),
+        'gender'          : str(data.get('gender', 'male')).lower().strip(),
+        'course'          : str(data.get('course', 'b.tech')).lower().strip(),
+        'study_hours'     : float(data.get('study_hours', 5)),
+        'class_attendance': float(data.get('class_attendance', 75)),
+        'internet_access' : str(data.get('internet_access', 'yes')).lower().strip(),
+        'sleep_hours'     : float(data.get('sleep_hours', 7)),
+        'sleep_quality'   : str(data.get('sleep_quality', 'average')).lower().strip(),
+        'study_method'    : str(data.get('study_method', 'mixed')).lower().strip(),
+        'facility_rating' : str(data.get('facility_rating', 'medium')).lower().strip(),
+        'exam_difficulty' : str(data.get('exam_difficulty', 'moderate')).lower().strip(),
+    }
+
+    df = pd.DataFrame([raw], columns=FEATURE_COLUMNS)
+
+    # Apply same encoding as your notebook
+    for col, mapping in master_map.items():
+        if col in df.columns:
+            val = str(df[col].iloc[0]).lower().strip()
+            df[col] = mapping.get(val, 0)
+
+    # Convert all to correct dtypes
+    df = df.astype({
+        'age'             : 'int64',
+        'gender'          : 'int64',
+        'course'          : 'int64',
+        'study_hours'     : 'float64',
+        'class_attendance': 'float64',
+        'internet_access' : 'int64',
+        'sleep_hours'     : 'float64',
+        'sleep_quality'   : 'int64',
+        'study_method'    : 'int64',
+        'facility_rating' : 'int64',
+        'exam_difficulty' : 'int64',
+    })
+
+    # Predict
+    prediction = xgb_regressor.predict(df)[0]
+    predicted_marks = round(float(prediction), 2)
+
     # Feature importance (same as your notebook)
     importances = xgb_regressor.feature_importances_
     all_features_ranked = sorted(
         zip(importances, FEATURE_COLUMNS), reverse=True
     )
 
-    return predicted_marks, all_features_ranked
+    return all_features_ranked
+
+
 
 def get_suggestion(data, student_score, all_features_ranked):
     """
@@ -219,11 +272,18 @@ allow_headers=["*"],
 @app.post("/api/predict")
 async def predict(data: StudentData):
     marks = predict_marks(data.dict())  # Aapka existing function
-    return {"predicted_marks": round(float(marks[0]), 2)}
+    return {"predicted_marks": round(float(marks), 2)}
+async def features_ranked(data:StudentData):
+    features_ranked=suggestions(data.dict())
+    return {"features":features_ranked }
 @app.post("/api/suggest")
 async def suggest(data: dict):
     marks = data["marks"]
     student = data["student_data"]
+    features=features_ranked(data:dict())
+    features_summary=".join(
+        [f"{name}: {val:.4f}" for val, name in all_features_ranked]
+    )
 
     prompt = f"""You are a helpful academic mentor. A student has received a predicted score of {marks}/100.
 
@@ -240,7 +300,19 @@ Student Profile:
 - Facility Rating: {student['facility_rating']}
 - Exam Difficulty: {student['exam_difficulty']}
 
-Give 4-5 specific, practical and encouraging suggestions to improve academic performance based on this profile. Use emojis and keep it friendly."""
+Impact Factors:
+{features_summary}
+
+Task: Give a proper feedback to student in English. Keep it precise and straight to the point. Give suggestions to improve their marks. Do not hallucinate and predict marks.
+Do not encourage the student to study for very long or short hours. Do not advise him/her to sleep too much or too little.
+If you find the predicted marks more than 100 or class attendance more than 100, declare the data as invalid and tell the user to enter correct details.
+Follow the given format:
+1. Strengths
+2. Areas to be Improved
+3. Precautions
+4. Suggestions
+5. Overall Feedback
+"""
 
     response = client.models.generate_content(
         model="gemini-2.0-flash",
