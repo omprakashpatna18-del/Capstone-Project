@@ -276,7 +276,7 @@ async def suggest(data: dict):
     marks = predict_marks(student)
     features=features_ranked(student)
 
-    features_summary=".join(
+    features_summary="\n".join(
         [f"{name}: {val:.4f}" for val, name in features]
     )
 
