@@ -318,4 +318,4 @@ Follow the given format:
         model="gemini-2.0-flash",
         contents=prompt
     )
-    return {"suggestions": response.text}
+    return response.text
