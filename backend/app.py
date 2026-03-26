@@ -278,11 +278,12 @@ async def features_ranked(data:StudentData):
     return {"features":features_ranked }
 @app.post("/api/suggest")
 async def suggest(data: dict):
-    marks = data["marks"]
     student = data["student_data"]
-    features=features_ranked(data:dict())
+    marks = predict_marks(student)
+    features=features_ranked(student)
+
     features_summary=".join(
-        [f"{name}: {val:.4f}" for val, name in all_features_ranked]
+        [f"{name}: {val:.4f}" for val, name in features]
     )
 
     prompt = f"""You are a helpful academic mentor. A student has received a predicted score of {marks}/100.
