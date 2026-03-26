@@ -29,63 +29,7 @@ from pydantic import BaseModel
 
 
 
-columns=data.columns
 
-#select features and target arrays
-target=data["exam_score"]
-feature_data=data.drop(["student_id","exam_score"],axis=1)
-
-#split training and testing data
-from sklearn.model_selection import train_test_split
-X_train,X_test,y_train,y_test=train_test_split(feature_data,target,random_state=1,test_size=0.25)
-
-cat_cols=['gender','course','internet_access','sleep_quality','study_method','facility_rating','exam_difficulty']
-
-for i in X_train.columns:
-    if i in cat_cols:
-     print(X_train[i].unique())
-
-from sklearn.preprocessing import LabelEncoder
-le=LabelEncoder()
-
-
-# Encode categorical features
-for col in X_train.select_dtypes(include='object').columns:
-
-    X_train[col] = le.fit_transform(X_train[col])
-    X_test[col]=le.transform(X_test[col])
-
-X_train.head()
-for i in X_train.columns:
-    if i in cat_cols:
-        print(X_train[i].unique())
-
-X_test.dtypes
-
-#fit a model to the data
-import xgboost as xgb
-
-# Train a model using the scikit-learn API
-xgb_regressor = xgb.XGBRegressor(n_estimators=500, objective='reg:squarederror', tree_method='hist', eta=0.05, max_depth=4, enable_categorical=False,reg_alpha=40,min_child_weight=40,gamma=10,reg_lambda=10)
-xgb_regressor.fit(X_train, y_train,verbose=True)
-
-print(type(xgb_regressor))
-
-pred=xgb_regressor.predict(X_test)
-print(pred)
-
-
-
-from sklearn.metrics import mean_squared_error,mean_absolute_percentage_error
-
-# Calculate MSE using the built-in function
-mse = mean_squared_error(y_test, pred)
-mape=mean_absolute_percentage_error(y_test,pred)
-
-print(f"Mean Squared Error (Scikit-learn): {mse}")
-print(mape)
-
-joblib.dump(xgb_regressor, 'xgb_model.joblib')
 
 model = joblib.load("xgb_model.joblib")
 class StudentData(BaseModel):
@@ -165,7 +109,7 @@ def predict_marks(data):
     })
 
     # Predict
-    prediction = xgb_regressor.predict(df)[0]
+    prediction = model.predict(df)[0]
     predicted_marks = round(float(prediction), 2)
 
 
@@ -220,7 +164,7 @@ def features_ranked(data):
     predicted_marks = round(float(prediction), 2)
 
     # Feature importance (same as your notebook)
-    importances = xgb_regressor.feature_importances_
+    importances = model.feature_importances_
     all_features_ranked = sorted(
         zip(importances, FEATURE_COLUMNS), reverse=True
     )
