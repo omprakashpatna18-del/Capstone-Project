@@ -464,7 +464,7 @@ async function submitForm() {
 
     alert("Data: " + JSON.stringify(data)); // ← Debug
 
-    const res = await fetch(`${BACKEND_URL}/api/predict`, {
+    const res = await fetch(`${BACKEND_URL}/api/suggest`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -474,7 +474,7 @@ async function submitForm() {
     alert("Result: " + JSON.stringify(result)); // ← Debug
 
     localStorage.setItem('predicted_marks', result.predicted_marks);
-    localStorage.setItem('student_data', JSON.stringify(data));
+    localStorage.setItem('suggestions', result.suggestions);
     window.location.href = 'AI mentor advice.html';
 
   } catch(err) {
