@@ -309,7 +309,7 @@ Follow the given format:
 5. Overall Feedback
 """
 
-    response = client.models.generate_content(
+    response = gemini_model.models.generate_content(
         model="gemini-2.0-flash",
         contents=prompt
     )
