@@ -8,7 +8,7 @@ Original file is located at
 """
 
 import pandas as pd
-import numpy as numpy
+import numpy as np
 url = "https://raw.githubusercontent.com/omprakashpatna18-del/Capstone-Project/main/Exam_Score_Prediction.csv"
 
 data = pd.read_csv(url)
@@ -226,37 +226,6 @@ def features_ranked(data):
     )
 
     return all_features_ranked
-
-
-
-def get_suggestion(data, student_score, all_features_ranked):
-    """
-    Uses your exact same Gemini prompt from the notebook.
-    """
-
-    features_summary = "\n".join(
-        [f"{name}: {val:.4f}" for val, name in all_features_ranked]
-    )
-
-    prompt_text = f"""
-Predicted Marks: {student_score:.2f}%
-Impact Factors:
-{features_summary}
-
-Task: Give a proper feedback to student in English. Keep it precise and straight to the point. Give suggestions to improve their marks. Do not hallucinate and predict marks.
-Do not encourage the student to study for very long or short hours. Do not advise him/her to sleep too much or too little.
-If you find the predicted marks more than 100 or class attendance more than 100, declare the data as invalid and tell the user to enter correct details.
-Follow the given format:
-1. Strengths
-2. Areas to be Improved
-3. Precautions
-4. Suggestions
-5. Overall Feedback
-"""
-
-    response = gemini_model.client.models.generate_content(prompt=prompt_text,model="gemini-2.0-flash",)
-    return response.text
-
 
 
 app = FastAPI(title="Student Marks Predictor")
