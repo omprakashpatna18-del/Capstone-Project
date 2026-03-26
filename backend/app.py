@@ -313,4 +313,5 @@ Follow the given format:
         model="gemini-2.0-flash",
         contents=prompt
     )
-    return response.text
+    return { "predicted_marks": marks,
+        "suggestions": response.text}
