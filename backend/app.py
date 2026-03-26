@@ -225,22 +225,26 @@ Follow the given format:
 5. Overall Feedback
 """
 	try:
-      response = gemini_model.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt
-    
-    suggestions = response.text
-	except Exception as e:
-    	print("Gemini error:", e)
-    	suggestions = f"""
+        response = gemini_model.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
+        suggestions = response.text
+
+    except Exception as e:
+        print("Gemini error:", e)
+
+        
+        suggestions = """ 
 1. Strengths: Your current performance shows potential.
 2. Areas to be Improved: Focus more on weak areas.
 3. Precautions: Avoid inconsistency in study routine.
 4. Suggestions: Maintain a balanced study plan.
 5. Overall Feedback: You can improve with consistent effort.
 """
+
     
-          
-          
-    return { "predicted_marks": marks,
-        "suggestions": suggestions}
+    return {
+        "predicted_marks": marks,
+        "suggestions": suggestions
+    }
