@@ -272,7 +272,10 @@ allow_headers=["*"],
 
 @app.post("/api/suggest")
 async def suggest(data: dict):
-    student = data["student_data"]
+    if "student_data" in data:
+        student = data["student_data"]
+    else:
+        student = data
     marks = predict_marks(student)
     features=features_ranked(student)
 
