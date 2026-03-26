@@ -269,13 +269,7 @@ allow_methods=["*"],
 allow_headers=["*"],
                 )
 
-@app.post("/api/predict")
-async def predict(data: StudentData):
-    marks = predict_marks(data.dict())  # Aapka existing function
-    return {"predicted_marks": round(float(marks), 2)}
-async def features_ranked(data:StudentData):
-    features_ranked=suggestions(data.dict())
-    return {"features":features_ranked }
+
 @app.post("/api/suggest")
 async def suggest(data: dict):
     student = data["student_data"]
