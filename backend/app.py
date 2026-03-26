@@ -160,7 +160,7 @@ def features_ranked(data):
     })
 
     # Predict
-    prediction = xgb_regressor.predict(df)[0]
+    prediction = model.predict(df)[0]
     predicted_marks = round(float(prediction), 2)
 
     # Feature importance (same as your notebook)
