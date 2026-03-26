@@ -225,9 +225,15 @@ Follow the given format:
 5. Overall Feedback
 """
 
-    response = gemini_model.models.generate_content(
+    try:
+      response = gemini_model.models.generate_content(
         model="gemini-2.0-flash",
         contents=prompt
+    except Exception as e:
+    print("Gemini error:", e)
+    suggestions = "AI suggestions temporarily unavailable."
+          
+          
     )
     return { "predicted_marks": marks,
         "suggestions": response.text}
