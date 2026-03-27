@@ -185,8 +185,7 @@ Follow the given format:
         model="gemini-2.0-flash",
         contents=prompt
         )
-        suggestions = response.text
-
+        suggestions = response.textt
     except Exception as e:
        print("Gemini error:", e)
 
@@ -198,7 +197,6 @@ Follow the given format:
     5. Overall Feedback: You can improve with consistent effort.
     """
 
-    
     return {
         "predicted_marks": marks,
         "suggestions": suggestions
