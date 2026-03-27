@@ -109,7 +109,7 @@ def helper(data):
     })
     return df
 
-def predict_marks(df)
+def predict_marks(df):
     prediction = model.predict(df)[0]
     predicted_marks = round(float(prediction), 2)
 
@@ -144,7 +144,7 @@ async def suggest(data: dict):
         student = data["student_data"]
     else:
         student = data
-    processed_df = prepare_input(student)
+    processed_df = helper(student)
     marks = predict_marks(processed_df)
     features=features_ranked(processed_df)
 
