@@ -224,14 +224,14 @@ Follow the given format:
 4. Suggestions
 5. Overall Feedback
 """
-try:
+  try:
     response = gemini_model.models.generate_content(
         model="gemini-2.0-flash",
         contents=prompt
     )
     suggestions = response.text
 
-except Exception as e:
+  except Exception as e:
     print("Gemini error:", e)
 
     suggestions = """ 
@@ -243,7 +243,7 @@ except Exception as e:
 """
 
     
-    return {
+  return {
         "predicted_marks": marks,
         "suggestions": suggestions
     }
