@@ -182,22 +182,25 @@ Follow the given format:
 """
     try:
         response = gemini_model.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt
+            model="gemini-2.0-flash",
+            contents=prompt
         )
-        suggestions = response.textt
+        suggestions = response.text # Fixed: Removed the extra 't'
+
     except Exception as e:
-       print("Gemini error:", e)
+        print("Gemini error:", e)
+        # Fallback suggestions
+        suggestions = """1. Strengths: Potential identified.
+2. Areas to be Improved: Focus on weak spots.
+3. Precautions: Maintain consistency.
+4. Suggestions: Balance study and rest.
+5. Overall Feedback: Good effort!"""
 
-       suggestions = """ 
-    1. Strengths: Your current performance shows potential.
-    2. Areas to be Improved: Focus more on weak areas.
-    3. Precautions: Avoid inconsistency in study routine.
-    4. Suggestions: Maintain a balanced study plan.
-    5. Overall Feedback: You can improve with consistent effort.
-    """
-
+    # 5. Final Return (Aligned at 4 spaces)
     return {
         "predicted_marks": marks,
         "suggestions": suggestions
-      }
+    }
+
+
+
