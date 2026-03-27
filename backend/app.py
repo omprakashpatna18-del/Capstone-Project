@@ -144,8 +144,9 @@ async def suggest(data: dict):
         student = data["student_data"]
     else:
         student = data
-    marks = predict_marks(student)
-    features=features_ranked(student)
+    processed_df = prepare_input(student)
+    marks = predict_marks(processed_df)
+    features=features_ranked(processed_df)
 
     features_summary="\n".join(
         [f"{name}: {val:.4f}" for val, name in features]
