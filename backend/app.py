@@ -182,7 +182,7 @@ Follow the given format:
 """
     try:
         response = gemini_model.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-1.5-flash",
             contents=prompt
         )
         suggestions = response.text # Fixed: Removed the extra 't'
@@ -203,4 +203,15 @@ Follow the given format:
     }
 
 
+@app.get("/")
+async def health_check():
+    """
+    This is the 'Home' route. Render pings this to see if the app is live.
+    It does NOT call Gemini, so it won't hit your API quota.
+    """
+    return {
+        "status": "online",
+        "message": "Saraswati AcadBoost Server is running perfectly!",
+        "version": "1.0.0"
+    }
 
