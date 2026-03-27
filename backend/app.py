@@ -64,7 +64,7 @@ import os
 import google.genai as genai
 gemini_model=genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
 
-def predict_marks(data):
+def helper(data):
     """
     Takes raw input from HTML form, encodes it exactly
     like your notebook, and returns XGBoost prediction.
@@ -86,7 +86,7 @@ def predict_marks(data):
     }
 
     df = pd.DataFrame([raw], columns=FEATURE_COLUMNS)
-
+ 
     # Apply same encoding as your notebook
     for col, mapping in master_map.items():
         if col in df.columns:
@@ -94,7 +94,7 @@ def predict_marks(data):
             df[col] = mapping.get(val, 0)
 
     # Convert all to correct dtypes
-    df = df.astype({
+    df= df.astype({
         'age'             : 'int64',
         'gender'          : 'int64',
         'course'          : 'int64',
@@ -107,61 +107,16 @@ def predict_marks(data):
         'facility_rating' : 'int64',
         'exam_difficulty' : 'int64',
     })
+    return df
 
-    # Predict
+def predict_marks(df)
     prediction = model.predict(df)[0]
     predicted_marks = round(float(prediction), 2)
 
 
     return predicted_marks
 
-def features_ranked(data):
-    """
-    Takes raw input from HTML form, encodes it exactly
-    like your notebook, and returns XGBoost prediction.
-    """
-
-    # Build raw input dict (student_id excluded)
-    raw = {
-        'age'             : int(data.get('age', 20)),
-        'gender'          : str(data.get('gender', 'male')).lower().strip(),
-        'course'          : str(data.get('course', 'b.tech')).lower().strip(),
-        'study_hours'     : float(data.get('study_hours', 5)),
-        'class_attendance': float(data.get('class_attendance', 75)),
-        'internet_access' : str(data.get('internet_access', 'yes')).lower().strip(),
-        'sleep_hours'     : float(data.get('sleep_hours', 7)),
-        'sleep_quality'   : str(data.get('sleep_quality', 'average')).lower().strip(),
-        'study_method'    : str(data.get('study_method', 'mixed')).lower().strip(),
-        'facility_rating' : str(data.get('facility_rating', 'medium')).lower().strip(),
-        'exam_difficulty' : str(data.get('exam_difficulty', 'moderate')).lower().strip(),
-    }
-
-    df = pd.DataFrame([raw], columns=FEATURE_COLUMNS)
-
-    # Apply same encoding as your notebook
-    for col, mapping in master_map.items():
-        if col in df.columns:
-            val = str(df[col].iloc[0]).lower().strip()
-            df[col] = mapping.get(val, 0)
-
-    # Convert all to correct dtypes
-    df = df.astype({
-        'age'             : 'int64',
-        'gender'          : 'int64',
-        'course'          : 'int64',
-        'study_hours'     : 'float64',
-        'class_attendance': 'float64',
-        'internet_access' : 'int64',
-        'sleep_hours'     : 'float64',
-        'sleep_quality'   : 'int64',
-        'study_method'    : 'int64',
-        'facility_rating' : 'int64',
-        'exam_difficulty' : 'int64',
-    })
-
-    # Predict
-    prediction = model.predict(df)[0]
-    predicted_marks = round(float(prediction), 2)
+def features_ranked(df):
 
     # Feature importance (same as your notebook)
     importances = model.feature_importances_
