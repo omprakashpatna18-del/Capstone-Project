@@ -202,16 +202,7 @@ Follow the given format:
         "suggestions": suggestions
     }
 
-
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def health_check():
-    """
-    This is the 'Home' route. Render pings this to see if the app is live.
-    It does NOT call Gemini, so it won't hit your API quota.
-    """
-    return {
-        "status": "online",
-        "message": "Saraswati AcadBoost Server is running perfectly!",
-        "version": "1.0.0"
-    }
+    return {"status": "online"}
 
